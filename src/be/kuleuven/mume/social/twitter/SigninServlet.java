@@ -7,10 +7,11 @@ import java.io.ObjectOutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.jdo.PersistenceManager;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import be.kuleuven.mume.Google;
 
 import com.google.appengine.api.datastore.Blob;
 import com.google.appengine.api.datastore.DatastoreService;
@@ -31,9 +32,15 @@ public class SigninServlet extends HttpServlet {
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		Logger log = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+		if(!Google.checkUserLogin(req,resp))
+			return;
 		
 		//service will listen to twittercallback
-		String callbackUrl = "http://mobilenvi.appspot.com/mobilenvi/twittercallback";
+		String scheme=req.getScheme();
+		String serverName=req.getServerName();
+		int serverPort = req.getServerPort();
+		String callbackUrl = scheme+"://"+serverName+":"+serverPort + "/mobilenvi/twittercallback";
+		log.log(Level.INFO, "CallbackUrl:" + callbackUrl);
 		Twitter twitter = new TwitterFactory().getInstance();
 		
 	    twitter.setOAuthConsumer("Sx53PNSwLsq3ifCn7ylbBw", "JiPdcDv7d206jpeKCZIgZOmqIMZbidSM9REGfq44");
@@ -48,9 +55,11 @@ public class SigninServlet extends HttpServlet {
 
 		    Entity rtoken = new Entity("OAuthTemp",requestToken.getToken());
 		    rtoken.setProperty("rtoken", convertToBlob(requestToken));
+		    rtoken.setProperty("UserId", Google.getUser().getUserId());
+		    
 		    log.log(Level.INFO, requestToken.toString());
 		    datastore.put(rtoken);
-		    
+	        
 			//redirect user to login page
 			resp.sendRedirect(requestToken.getAuthorizationURL());
 			

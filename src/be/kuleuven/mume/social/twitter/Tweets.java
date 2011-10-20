@@ -23,29 +23,4 @@ public class Tweets extends ArrayList<Tweet>{
 		}
 		return b.toString();
 	}
-	
-	public static Tweets getRecentTweets(int page){
-		Logger log = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-		
-	    // The factory instance is re-useable and thread safe.
-	    Twitter twitter = new TwitterFactory().getInstance();
-	    twitter.setOAuthConsumer("Sx53PNSwLsq3ifCn7ylbBw", "JiPdcDv7d206jpeKCZIgZOmqIMZbidSM9REGfq44");
-	    Tweets tweets = new Tweets();
-	    List<Status> statuses;
-		try {
-			statuses = twitter.getHomeTimeline();
-			
-		    log.log(Level.INFO, "Showing friends timeline.");
-		    
-		    for (Status status : statuses) {
-		    	tweets.add(new Tweet(status.getUser().getName(), status.getText(), status.getUser().getProfileImageURL()));
-		    }
-		    
-		    
-		} catch (TwitterException e) {
-			log.log(Level.SEVERE, e.toString());
-		}
-	    
-	    return tweets;
-	}
 }

@@ -45,7 +45,7 @@
   
         <servlet>
   	<servlet-name>GoogleLogin</servlet-name>
-  	<servlet-class>be.kuleuven.mume.social.google.SigninServlet</servlet-class>
+  	<servlet-class>be.kuleuven.mume.Google</servlet-class>
   </servlet>
   <servlet-mapping>
   	<servlet-name>GoogleLogin</servlet-name>

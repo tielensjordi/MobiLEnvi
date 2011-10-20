@@ -74,9 +74,14 @@ public class Callback extends HttpServlet {
 	            
 	            if(twitter.verifyCredentials().isVerified())
 	            	resp.getWriter().println("Success!");
+	            
+	            
+	            	resp.getWriter().println("");
 		        
+	            	//@TODO: Save token to persistent db
+	            /*k = KeyFactory.createKey(kind, id);
 	            Entity aToken = new Entity(k)
-	            datastore.put(entity)
+	            datastore.put(entity)*/
 	            
 	            log.log(Level.INFO, "Callback received");
 	        } 
