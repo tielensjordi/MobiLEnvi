@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+              http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         version="2.5"
+         xmlns="http://java.sun.com/xml/ns/javaee">
+
+  <!-- Servlets -->
+  <servlet>
+    <servlet-name>greetServlet</servlet-name>
+    <servlet-class>be.kuleuven.mume.server.GreetingServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>greetServlet</servlet-name>
+    <url-pattern>/mobilenvi/greet</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>testServlet</servlet-name>
+  	<servlet-class>be.kuleuven.mume.servlets.TestServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>testServlet</servlet-name>
+  	<url-pattern>/mobilenvi/testservlet</url-pattern>
+  </servlet-mapping>
+  
+    <servlet>
+  	<servlet-name>TwitterCallback</servlet-name>
+  	<servlet-class>be.kuleuven.mume.social.twitter.Callback</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>TwitterCallback</servlet-name>
+  	<url-pattern>/mobilenvi/twittercallback</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>SigninTwitter</servlet-name>
+  	<servlet-class>be.kuleuven.mume.social.twitter.SigninServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>SigninTwitter</servlet-name>
+  	<url-pattern>/mobilenvi/twittersignin</url-pattern>
+  </servlet-mapping>
+  
+        <servlet>
+  	<servlet-name>GoogleLogin</servlet-name>
+  	<servlet-class>be.kuleuven.mume.social.google.SigninServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>GoogleLogin</servlet-name>
+  	<url-pattern>/mobilenvi/googlesignin</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Default page to serve -->
+  <welcome-file-list>
+    <welcome-file>Mobilenvi.html</welcome-file>
+  </welcome-file-list>
+
+</web-app>

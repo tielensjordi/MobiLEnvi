@@ -1,0 +1,2 @@
+serviceClass: be.kuleuven.mume.client.GreetingService
+path: 12ADC6F12771EDD62AB5D0001FC54D88.gwt.rpc
