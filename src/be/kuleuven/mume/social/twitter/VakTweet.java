@@ -9,7 +9,7 @@ import be.kuleuven.mume.shared.Vak;
 
 @PersistenceCapable
 public class VakTweet extends LocalTweet {
-	@Persistent
+	@Persistent(dependent = "true")
 	private Vak vak;
 	
 	public VakTweet(Tweet tweet, Vak vak) {

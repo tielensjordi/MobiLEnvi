@@ -3,6 +3,7 @@ package be.kuleuven.mume.shared;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.jdo.annotations.Element;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.Order;
 import javax.jdo.annotations.PersistenceCapable;
@@ -26,17 +27,19 @@ public class Vak {
 	private String name;
 	@Persistent
 	private String hashTag;
-	//@Persistent(mappedBy = "vak")
-	//@Order(extensions = @Extension(vendorName="datanucleus", key="list-ordering", value="date asc"))
-	//private List<Vraag> vragen;
 	@Persistent(mappedBy = "vak")
+	@Element(dependent = "true")
+	@Order(extensions = @Extension(vendorName="datanucleus", key="list-ordering", value="date asc"))
+	private List<Vraag> vragen;
+	@Persistent(mappedBy = "vak")
+	@Element(dependent = "true")
 	@Order(extensions = @Extension(vendorName="datanucleus", key="list-ordering", value="createdAt asc"))
 	private List<VakTweet> tweets;
 	
 	public Vak(){
 		name = "";
 		hashTag = "";
-		//this.vragen = new ArrayList<Vraag>();
+		this.vragen = new ArrayList<Vraag>();
 		this.tweets = new ArrayList<VakTweet>();
 	}
 	
@@ -62,7 +65,7 @@ public class Vak {
 		return hashTag;
 	}
 
-	/*public void addVraag(Vraag v)
+	public void addVraag(Vraag v)
 	{
 		vragen.add(v);
 	}
@@ -73,7 +76,7 @@ public class Vak {
 
 	public List<Vraag> getVragen() {
 		return vragen;
-	}*/
+	}
 
 	public String tweetsToString() {
 		StringBuilder b = new StringBuilder();

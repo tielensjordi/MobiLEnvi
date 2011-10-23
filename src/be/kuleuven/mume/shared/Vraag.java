@@ -1,5 +1,6 @@
 package be.kuleuven.mume.shared;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
@@ -20,10 +21,14 @@ public class Vraag {
 	private User fromUser;
 	@Persistent
 	private String vraag;
-	@Persistent
+	@Persistent(dependent = "true")
 	private Vak vak;
 	@Persistent
 	private Date date;
+	
+	public Vraag(){
+		this.date = Calendar.getInstance().getTime();
+	}
 	
 	public void setVraagId(Key vraagId) {
 		this.vraagId = vraagId;

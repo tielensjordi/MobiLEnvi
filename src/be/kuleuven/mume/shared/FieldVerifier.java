@@ -1,5 +1,11 @@
 package be.kuleuven.mume.shared;
 
+import java.util.Map;
+import java.util.regex.Pattern;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * <p>
  * FieldVerifier validates that the name the user enters is valid.
@@ -38,5 +44,18 @@ public class FieldVerifier {
 			return false;
 		}
 		return name.length() > 3;
+	}
+	
+	public static String getParam(Map<String,String> regexes, HttpServletRequest req, HttpServletResponse resp, String paramName) throws FormatException {
+		String regex = regexes.get(paramName);
+		String param = req.getParameter(paramName);
+		
+		if(param==null)
+			param = "";
+		
+		if(!Pattern.matches(regex, param)){
+			throw new FormatException("Param: '" + paramName + "' has to be in this format:" + regex);
+		}
+		return param;
 	}
 }

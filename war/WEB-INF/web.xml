@@ -43,6 +43,24 @@
   	<url-pattern>/mobilenvi/twittersignin</url-pattern>
   </servlet-mapping>
   
+   <servlet>
+  	<servlet-name>VakServlet</servlet-name>
+  	<servlet-class>be.kuleuven.mume.servlets.VakServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>VakServlet</servlet-name>
+  	<url-pattern>/vak</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>VraagServlet</servlet-name>
+  	<servlet-class>be.kuleuven.mume.servlets.VraagServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>VraagServlet</servlet-name>
+  	<url-pattern>/vraag</url-pattern>
+  </servlet-mapping>
+  
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>Mobilenvi.html</welcome-file>
