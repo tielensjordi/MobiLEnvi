@@ -11,12 +11,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import be.kuleuven.mume.Google;
+import be.kuleuven.mume.PMF;
+import be.kuleuven.mume.shared.Persoon;
 
 import com.google.appengine.api.datastore.Blob;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -32,35 +35,47 @@ public class SigninServlet extends HttpServlet {
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		Logger log = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-		if(!Google.checkUserLogin(req,resp))
+		
+		//Every Servlet must check whether the Persoon has already signed in.
+		Persoon persoon = Persoon.getCurrentPersoon(req,resp,true);
+		if(persoon==null)
 			return;
 		
+		if(persoon.getTwitter() != null)
+		{
+			
+			Callback.test(persoon, PMF.get().getPersistenceManager(), req, resp);
+			return;
+		}
 		//service will listen to twittercallback
 		String scheme=req.getScheme();
 		String serverName=req.getServerName();
 		int serverPort = req.getServerPort();
 		String callbackUrl = scheme+"://"+serverName+":"+serverPort + "/mobilenvi/twittercallback";
 		log.log(Level.INFO, "CallbackUrl:" + callbackUrl);
-		Twitter twitter = new TwitterFactory().getInstance();
 		
+		Twitter twitter = new TwitterFactory().getInstance();
 	    twitter.setOAuthConsumer("Sx53PNSwLsq3ifCn7ylbBw", "JiPdcDv7d206jpeKCZIgZOmqIMZbidSM9REGfq44");
 	    
 	    RequestToken requestToken;
 	    
 		try {
-			//keep requestToken for creating the acces token.
+			//keep requestToken for creating the access token.
 			requestToken = twitter.getOAuthRequestToken(callbackUrl);
 
 		    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-
+		    UserService userService = UserServiceFactory.getUserService();
+		    String googleId = userService.getCurrentUser().getUserId();
+		    
 		    Entity rtoken = new Entity("OAuthTemp",requestToken.getToken());
 		    rtoken.setProperty("rtoken", convertToBlob(requestToken));
-		    rtoken.setProperty("UserId", Google.getUser().getUserId());
+		    rtoken.setProperty("twitter", convertToBlob(twitter));
+		    rtoken.setProperty("UserId", googleId);
 		    
-		    log.log(Level.INFO, requestToken.toString());
+		    //log.log(Level.INFO, googleId);
 		    datastore.put(rtoken);
 	        
-			//redirect user to login page
+			//redirect user to twitterlogin page
 			resp.sendRedirect(requestToken.getAuthorizationURL());
 			
 		} catch (TwitterException te) {

@@ -18,25 +18,16 @@ import com.google.appengine.repackaged.org.json.JSONObject;
 
 public class TweetFactory {
 	
-	private Tweets tweets = new Tweets();
 	private Logger log = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	
-	public Tweets getRecentTweets(int page){
+	/*public LocalTweets getRecentTweets(int page){
 		Logger log = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 		
 	    // The factory instance is re-useable and thread safe.
 	    Twitter twitter = new TwitterFactory().getInstance();
 	    twitter.setOAuthConsumer("Sx53PNSwLsq3ifCn7ylbBw", "JiPdcDv7d206jpeKCZIgZOmqIMZbidSM9REGfq44");
-	    Tweets tweets = new Tweets();
-	    List<Status> statuses;
+	    
 		try {
-			statuses = twitter.getHomeTimeline();
-			
-		    log.log(Level.INFO, "Showing friends timeline.");
-		    
-		    for (Status status : statuses) {
-		    	tweets.add(new Tweet(status.getUser().getName(), status.getText(), status.getUser().getProfileImageURL()));
-		    }
 		    
 		    
 		} catch (TwitterException e) {
@@ -45,7 +36,7 @@ public class TweetFactory {
 	    
 	    return tweets;
 	}
-	public Tweets bySearchTerm(String searchTerm, int page) {
+	public LocalTweets bySearchTerm(String searchTerm, int page) {
 		  Logger log = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 		  tweets.clear();
 		  
@@ -83,7 +74,7 @@ public class TweetFactory {
 			return true;
 		return false;
 	}
-	public Tweets getTweets(JSONObject json){
+	public LocalTweets getTweets(JSONObject json){
 		    
 			  try {
 				    Object j = json.get("results");
@@ -93,7 +84,7 @@ public class TweetFactory {
 				    for(int i = 0 ; i < a.length() ; i++) {
 						  t = (JSONObject)a.get(i);
 						   
-						  Tweet tweet = new Tweet(
+						  LocalTweet tweet = new LocalTweet(
 								      t.get("from_user").toString(),
 								      t.get("text").toString(),
 								      new URL(((JSONObject)t).get("profile_image_url").toString())
@@ -106,5 +97,5 @@ public class TweetFactory {
 			  }
 			   
 			  return tweets;
-	  }
+	  }*/
 }

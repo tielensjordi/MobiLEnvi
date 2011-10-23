@@ -43,15 +43,6 @@
   	<url-pattern>/mobilenvi/twittersignin</url-pattern>
   </servlet-mapping>
   
-        <servlet>
-  	<servlet-name>GoogleLogin</servlet-name>
-  	<servlet-class>be.kuleuven.mume.Google</servlet-class>
-  </servlet>
-  <servlet-mapping>
-  	<servlet-name>GoogleLogin</servlet-name>
-  	<url-pattern>/mobilenvi/googlesignin</url-pattern>
-  </servlet-mapping>
-  
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>Mobilenvi.html</welcome-file>
