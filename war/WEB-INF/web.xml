@@ -61,6 +61,15 @@
   	<url-pattern>/vraag</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+  	<servlet-name>VakkenServlet</servlet-name>
+  	<servlet-class>be.kuleuven.mume.servlets.VakkenServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>VakkenServlet</servlet-name>
+  	<url-pattern>/vakken</url-pattern>
+  </servlet-mapping>
+  
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>Mobilenvi.html</welcome-file>

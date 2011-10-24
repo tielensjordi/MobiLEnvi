@@ -104,4 +104,14 @@ public class Vak {
 	public List<VakTweet> getTweets() {
 		return tweets;
 	}
+	
+	public String toString(){
+		StringBuilder str = new StringBuilder();
+		str.append(this.name);
+		str.append(" id:");
+		str.append(this.vakId);
+		str.append(" hashtag:");
+		str.append(this.hashTag);
+		return str.toString();
+	}
 }
