@@ -13,8 +13,8 @@ import com.google.appengine.api.datastore.Key;
 @PersistenceCapable
 public class Vraag {
 
-    @PrimaryKey
-    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+	@PrimaryKey
+	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Key vraagId;
 	@Persistent
 	private Persoon fromPersoon;
@@ -24,19 +24,26 @@ public class Vraag {
 	private Vak vak;
 	@Persistent
 	private Date date;
+<<<<<<< HEAD
 	@Persistent
 	private Vraag replyTo;
 	
 	public Vraag(){
+=======
+
+	public Vraag() {
+>>>>>>> mobilenvi/master
 		this.date = Calendar.getInstance().getTime();
 	}
-	
+
 	public void setVraagId(Key vraagId) {
 		this.vraagId = vraagId;
 	}
+
 	public Key getVraagId() {
 		return vraagId;
 	}
+<<<<<<< HEAD
 	public void setFromUser(Persoon fromPersoon) {
 		this.fromPersoon = fromPersoon;
 	}
@@ -48,16 +55,37 @@ public class Vraag {
 	}
 	public String getText() {
 		return text;
+=======
+
+	public void setFromUser(User fromUser) {
+		this.fromUser = fromUser;
 	}
+
+	public User getFromUser() {
+		return fromUser;
+	}
+
+	public void setVraag(String vraag) {
+		this.vraag = vraag;
+	}
+
+	public String getVraag() {
+		return vraag;
+>>>>>>> mobilenvi/master
+	}
+
 	public void setVak(Vak vak) {
 		this.vak = vak;
 	}
+
 	public Vak getVak() {
 		return vak;
 	}
+
 	public void setDate(Date date) {
 		this.date = date;
 	}
+
 	public Date getDate() {
 		return date;
 	}

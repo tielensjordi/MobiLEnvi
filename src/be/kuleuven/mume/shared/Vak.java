@@ -20,8 +20,8 @@ import be.kuleuven.mume.social.twitter.VakTweet;
 
 @PersistenceCapable
 public class Vak {
-    @PrimaryKey
-    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+	@PrimaryKey
+	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Key vakId;
 	@Persistent
 	private String name;
@@ -29,26 +29,28 @@ public class Vak {
 	private String hashTag;
 	@Persistent(mappedBy = "vak")
 	@Element(dependent = "true")
-	@Order(extensions = @Extension(vendorName="datanucleus", key="list-ordering", value="date asc"))
+	@Order(extensions = @Extension(vendorName = "datanucleus", key = "list-ordering", value = "date asc"))
 	private List<Vraag> vragen;
 	@Persistent(mappedBy = "vak")
 	@Element(dependent = "true")
-	@Order(extensions = @Extension(vendorName="datanucleus", key="list-ordering", value="createdAt asc"))
+	@Order(extensions = @Extension(vendorName = "datanucleus", key = "list-ordering", value = "createdAt asc"))
 	private List<VakTweet> tweets;
-	
-	public Vak(){
+
+	public Vak() {
 		name = "";
 		hashTag = "";
 		this.vragen = new ArrayList<Vraag>();
 		this.tweets = new ArrayList<VakTweet>();
 	}
-	
+
 	public void setVakId(Key vakId) {
 		this.vakId = vakId;
 	}
+
 	public Key getVakId() {
 		return vakId;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -65,8 +67,7 @@ public class Vak {
 		return hashTag;
 	}
 
-	public void addVraag(Vraag v)
-	{
+	public void addVraag(Vraag v) {
 		vragen.add(v);
 	}
 
@@ -85,14 +86,17 @@ public class Vak {
 		}
 		return b.toString();
 	}
-	public void addTweet(Tweet tweet){
+
+	public void addTweet(Tweet tweet) {
 		this.tweets.add(new VakTweet(tweet, this));
 	}
-	public void addTweet(VakTweet tweet) throws Exception{
-		if(tweet.getVak() != null)
+
+	public void addTweet(VakTweet tweet) throws Exception {
+		if (tweet.getVak() != null)
 			throw new Exception("Cannot add a tweet from another Vak");
 		this.tweets.add(tweet);
 	}
+
 	public void setTweets(List<VakTweet> tweets) {
 		this.tweets = tweets;
 	}

@@ -18,48 +18,47 @@ import twitter4j.Tweet;
 @PersistenceCapable
 @Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
 public class LocalTweet {
-    @PrimaryKey
-    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+	@PrimaryKey
+	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Key tweetId;
-    @Persistent
-    private String fromUser;
-    //@Persistent
-    //private long fromUserId;
-    @Persistent
-    private String text;
-    @Persistent
-    private String image_url;
-    @Persistent
-    private Date createdAt;
-    @Persistent
-    private String toUser;
-    //@Persistent
-    //private long toUserId;
-    @Persistent
-    private String location;
-    
+	@Persistent
+	private String fromUser;
+	//@Persistent
+	//private long fromUserId;
+	@Persistent
+	private String text;
+	@Persistent
+	private String image_url;
+	@Persistent
+	private Date createdAt;
+	@Persistent
+	private String toUser;
+	//@Persistent
+	//private long toUserId;
+	@Persistent
+	private String location;
+
 	public LocalTweet(Tweet t) {
-		try{
-	    this.fromUser = t.getFromUser();
-	    //this.setFromUserId(t.getFromUserId());
-	    this.text = t.getText();
-	    this.image_url = t.getProfileImageUrl();
-	    this.setCreatedAt(t.getCreatedAt());
-	    this.setToUser(t.getToUser());
-	    //this.setToUserId(t.getToUserId());
-	    this.setLocation(t.getLocation());
-		}
-		catch(Exception e){
+		try {
+			this.fromUser = t.getFromUser();
+			//this.setFromUserId(t.getFromUserId());
+			this.text = t.getText();
+			this.image_url = t.getProfileImageUrl();
+			this.setCreatedAt(t.getCreatedAt());
+			this.setToUser(t.getToUser());
+			//this.setToUserId(t.getToUserId());
+			this.setLocation(t.getLocation());
+		} catch (Exception e) {
 			Logger log = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 			log.log(Level.SEVERE, "LocalTweet creation failed" + e.toString());
 		}
-	  }
-	  
-	public LocalTweet(){
-		
 	}
-	
-	public String toString(){
+
+	public LocalTweet() {
+
+	}
+
+	public String toString() {
 		return "Usr: " + this.fromUser + " Mess: " + this.text;
 	}
 
@@ -116,4 +115,3 @@ public class LocalTweet {
 	}
 
 }
-

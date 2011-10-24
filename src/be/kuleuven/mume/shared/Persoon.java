@@ -23,47 +23,70 @@ import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 
-
 @PersistenceCapable
 public class Persoon {
-	
-    @PrimaryKey
-    @Persistent//(valueStrategy = IdGeneratorStrategy.IDENTITY)
+
+	@PrimaryKey
+	@Persistent
+	//(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Key googleId;
 	@Persistent
 	private int leeftijd;
 	@Persistent(serialized = "true")
 	private AccessToken twitterToken;
+<<<<<<< HEAD
 	
 	public Persoon(){	}
 	
 	public static Persoon getCurrentPersoon(){
+=======
+
+	public Persoon() {
+	}
+
+	public static Persoon getCurrentPersoon(HttpServletRequest req,
+			HttpServletResponse resp, boolean redirectToGoogleLogin)
+			throws IOException {
+>>>>>>> mobilenvi/master
 		Logger log = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-		
+
 		UserService userService = UserServiceFactory.getUserService();
 		User user = userService.getCurrentUser();
+<<<<<<< HEAD
 		
+=======
+
+		//check if a user is logged in.
+		//redirect to login page if not yet logged in.
+		if (user == null) {
+			if (redirectToGoogleLogin)
+				resp.sendRedirect(userService.createLoginURL(req
+						.getRequestURI()));
+			return null;
+		}
+
+>>>>>>> mobilenvi/master
 		String googleId = user.getUserId();
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		Persoon p = null;
-        Key key = KeyFactory.createKey(Persoon.class.getSimpleName(), googleId);
-        try{
-        	//If existing use object Persoon from db.
-        	p = pm.getObjectById(Persoon.class, key);
-        }
-        catch (Exception e){
-        	log.log(Level.WARNING,"New Persoon will be added to the db" + e.getMessage());
-        }
-        
-        if(p == null)
-        {
-        	p = new Persoon();
-        	p.setGoogleId(key);//Set GoogleId as PK
-        	pm.makePersistent(p);
-        }
-        
-        return p;
+		Key key = KeyFactory.createKey(Persoon.class.getSimpleName(), googleId);
+		try {
+			//If existing use object Persoon from db.
+			p = pm.getObjectById(Persoon.class, key);
+		} catch (Exception e) {
+			log.log(Level.WARNING,
+					"New Persoon will be added to the db" + e.getMessage());
+		}
+
+		if (p == null) {
+			p = new Persoon();
+			p.setGoogleId(key);//Set GoogleId as PK
+			pm.makePersistent(p);
+		}
+
+		return p;
 	}
+<<<<<<< HEAD
 	public static Persoon getCurrentPersoon(HttpServletRequest req, HttpServletResponse resp, boolean redirectToGoogleLogin) throws IOException
 	{	
 		UserService userService = UserServiceFactory.getUserService();
@@ -83,31 +106,40 @@ public class Persoon {
 	}
 	
 	public Twitter getTwitter(){
+=======
+
+	public Twitter getTwitter() {
+>>>>>>> mobilenvi/master
 		Twitter twitter = null;
-		if(this.twitterToken != null){
+		if (this.twitterToken != null) {
 			twitter = new TwitterFactory().getInstance();
-		    twitter.setOAuthConsumer("Sx53PNSwLsq3ifCn7ylbBw", "JiPdcDv7d206jpeKCZIgZOmqIMZbidSM9REGfq44");
-		    twitter.setOAuthAccessToken(this.twitterToken);
+			twitter.setOAuthConsumer("Sx53PNSwLsq3ifCn7ylbBw",
+					"JiPdcDv7d206jpeKCZIgZOmqIMZbidSM9REGfq44");
+			twitter.setOAuthAccessToken(this.twitterToken);
 		}
-	    return twitter;
+		return twitter;
 	}
-    
-	public Key getGoogleId(){
+
+	public Key getGoogleId() {
 		return googleId;
 	}
-	public void setGoogleId(Key googleId){
+
+	public void setGoogleId(Key googleId) {
 		this.googleId = googleId;
 	}
+
 	public void setLeeftijd(int lt) {
 		this.leeftijd = lt;
 	}
-	
-	public int getLeeftijd(){
+
+	public int getLeeftijd() {
 		return this.leeftijd;
 	}
+
 	public void setTwitterToken(AccessToken twitterToken) {
 		this.twitterToken = twitterToken;
 	}
+
 	public AccessToken getTwitterToken() {
 		return twitterToken;
 	}
