@@ -9,7 +9,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class VakTest {
+public class VraagTest {
 	
 	@Before
 	public void startup() {
@@ -18,7 +18,8 @@ public class VakTest {
 	@Test
 	public void testStoreVak() throws IOException{
 		
-		URL url = new URL("http://localhost:8888/vak?q=add&name=mijnvak&hashtag=mijnvak");
+		URL url = new URL("http://localhost:8888/vraag?q=add&text=Hoe zou dit moeten?&vakid=agltb2JpbGVudmlyCQsSA1ZhaxgRDA");
+		
 		URLConnection conn = url.openConnection();
 		String responcecode = conn.getHeaderField(0);
 		Assert.assertEquals("HTTP/1.1 200 OK", responcecode);
@@ -29,7 +30,7 @@ public class VakTest {
 	@Test
 	public void testWrongUrl() throws IOException{
 		
-		URL url = new URL("http://localhost:8888/vak?q=add&name=reza&hashtag=%25mijnvak");
+		URL url = new URL("http://localhost:8888/vak?q=add&name=reza&hashtag=mijnvak");
 		
 		URLConnection conn = url.openConnection();
 		String responcecode = conn.getHeaderField(0);

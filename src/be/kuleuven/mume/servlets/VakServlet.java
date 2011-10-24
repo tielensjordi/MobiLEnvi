@@ -16,6 +16,7 @@ import com.google.appengine.api.datastore.KeyFactory;
 import be.kuleuven.mume.PMF;
 import be.kuleuven.mume.shared.FieldVerifier;
 import be.kuleuven.mume.shared.FormatException;
+import be.kuleuven.mume.shared.Persoon;
 import be.kuleuven.mume.shared.Vak;
 
 
@@ -39,6 +40,9 @@ public class VakServlet extends HttpServlet {
 	}
 	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		Persoon p = Persoon.getCurrentPersoon(req, resp, true);
+		if(p==null)
+			return;
 		
 		try{
 			String q = FieldVerifier.getParam(VakServlet.regex, req,resp,"q");

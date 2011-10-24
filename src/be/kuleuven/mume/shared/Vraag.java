@@ -9,7 +9,6 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.users.User;
 
 @PersistenceCapable
 public class Vraag {
@@ -18,13 +17,15 @@ public class Vraag {
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Key vraagId;
 	@Persistent
-	private User fromUser;
+	private Persoon fromPersoon;
 	@Persistent
-	private String vraag;
+	private String text;
 	@Persistent(dependent = "true")
 	private Vak vak;
 	@Persistent
 	private Date date;
+	@Persistent
+	private Vraag replyTo;
 	
 	public Vraag(){
 		this.date = Calendar.getInstance().getTime();
@@ -36,17 +37,17 @@ public class Vraag {
 	public Key getVraagId() {
 		return vraagId;
 	}
-	public void setFromUser(User fromUser) {
-		this.fromUser = fromUser;
+	public void setFromUser(Persoon fromPersoon) {
+		this.fromPersoon = fromPersoon;
 	}
-	public User getFromUser() {
-		return fromUser;
+	public Persoon getFromUser() {
+		return fromPersoon;
 	}
-	public void setVraag(String vraag) {
-		this.vraag = vraag;
+	public void setText(String vraag) {
+		this.text = vraag;
 	}
-	public String getVraag() {
-		return vraag;
+	public String getText() {
+		return text;
 	}
 	public void setVak(Vak vak) {
 		this.vak = vak;
@@ -59,5 +60,19 @@ public class Vraag {
 	}
 	public Date getDate() {
 		return date;
+	}
+	
+	public boolean isReply(){
+		if(this.replyTo != null)
+			return true;
+		return false;
+	}
+
+	public void setReplyTo(Vraag replyTo) {
+		this.replyTo = replyTo;
+	}
+
+	public Vraag getReplyTo() {
+		return replyTo;
 	}
 }

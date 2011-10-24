@@ -37,21 +37,11 @@ public class Persoon {
 	
 	public Persoon(){	}
 	
-	public static Persoon getCurrentPersoon(HttpServletRequest req, HttpServletResponse resp, boolean redirectToGoogleLogin) throws IOException
-	{
+	public static Persoon getCurrentPersoon(){
 		Logger log = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 		
 		UserService userService = UserServiceFactory.getUserService();
 		User user = userService.getCurrentUser();
-		
-		//check if a user is logged in.
-		//redirect to login page if not yet logged in.
-		if(user == null)
-		{
-        	if(redirectToGoogleLogin)
-        		resp.sendRedirect(userService.createLoginURL(req.getRequestURI()));
-            return null;
-		}
 		
 		String googleId = user.getUserId();
 		PersistenceManager pm = PMF.get().getPersistenceManager();
@@ -73,6 +63,23 @@ public class Persoon {
         }
         
         return p;
+	}
+	public static Persoon getCurrentPersoon(HttpServletRequest req, HttpServletResponse resp, boolean redirectToGoogleLogin) throws IOException
+	{	
+		UserService userService = UserServiceFactory.getUserService();
+		User user = userService.getCurrentUser();
+		
+		//check if a user is logged in.
+		//redirect to login page if not yet logged in.
+		if(user == null)
+		{
+        	if(redirectToGoogleLogin)
+        		resp.sendRedirect(userService.createLoginURL(req.getRequestURI()));
+            return null;
+		}
+		
+		return getCurrentPersoon();
+
 	}
 	
 	public Twitter getTwitter(){
