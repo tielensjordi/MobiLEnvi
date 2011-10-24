@@ -39,7 +39,8 @@ public class VakServlet extends HttpServlet {
 	}
 	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		Persoon p = Persoon.getCurrentPersoon(req, resp, true);
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		Persoon p = Persoon.getCurrentPersoon(pm, req, resp, true);
 		if(p==null)
 			return;
 		
@@ -47,20 +48,20 @@ public class VakServlet extends HttpServlet {
 			String q = FieldVerifier.getParam(VakServlet.regex, req,resp,"q");
 			
 			if(q.equals("add"))
-				addVak(req, resp);
+				addVak(pm, req, resp);
 			else if(q.equals("update"))
-				updateVak(req, resp);
+				updateVak(pm, req, resp);
 			else if(q.equals("del"))
-				deleteVak(req, resp);
+				deleteVak(pm, req, resp);
 			
 		} catch (FormatException e) {
 			resp.getWriter().write(e.getMessage());
 			resp.setStatus(400);
 		}
+		pm.close();
 	}
 
-	private void deleteVak(HttpServletRequest req, HttpServletResponse resp) throws FormatException, IOException {
-		PersistenceManager pm = PMF.get().getPersistenceManager();
+	private void deleteVak(PersistenceManager pm, HttpServletRequest req, HttpServletResponse resp) throws FormatException, IOException {
 
 		String vakId = FieldVerifier.getParam(VakServlet.regex, req, resp, "vakid");
 
@@ -70,17 +71,13 @@ public class VakServlet extends HttpServlet {
 		//delete vak from db
 		pm.deletePersistent(vak);
 		
-		pm.close();
-		
 		resp.getWriter().write("Deleted succesfully");
 	}
 
-	private void updateVak(HttpServletRequest req, HttpServletResponse resp) throws FormatException, IOException {
+	private void updateVak(PersistenceManager pm, HttpServletRequest req, HttpServletResponse resp) throws FormatException, IOException {
 		String vakIdStr = FieldVerifier.getParam(VakServlet.regex, req, resp, "vakid");
 		String name = FieldVerifier.getParam(VakServlet.regex, req, resp, "name");
 		String hashTag = FieldVerifier.getParam(VakServlet.regex, req, resp, "hashtag");
-		
-		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
 		Key key = KeyFactory.stringToKey(vakIdStr);
 		Vak vak = pm.getObjectById(Vak.class, key);
@@ -88,17 +85,13 @@ public class VakServlet extends HttpServlet {
 		vak.setName(name);
 		vak.setHashTag(hashTag);
 		
-		
-		pm.close();
-		
 		resp.getWriter().write("Updated succesfully" + vak.getVakId().toString());
 	}
 
-	private void addVak(HttpServletRequest req, HttpServletResponse resp) throws FormatException, IOException {
+	private void addVak(PersistenceManager pm, HttpServletRequest req, HttpServletResponse resp) throws FormatException, IOException {
 		String name = FieldVerifier.getParam(VakServlet.regex, req, resp, "name");
 		String hashTag = FieldVerifier.getParam(VakServlet.regex, req, resp, "hashtag");
 
-		PersistenceManager pm = PMF.get().getPersistenceManager();
 		Vak vak = new Vak();
 
 		vak.setName(name);
@@ -106,8 +99,6 @@ public class VakServlet extends HttpServlet {
 
 		//Store new Vak to the db
 		pm.makePersistent(vak);
-
-		pm.close();
 
 		resp.getWriter().write("Added succesfully"+ KeyFactory.keyToString(vak.getVakId()));
 	}

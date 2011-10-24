@@ -32,7 +32,8 @@ public class VraagServlet extends HttpServlet {
 		VraagServlet.regex.put("replytoid", "\\p{Graph}+");
 	}
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		Persoon p = Persoon.getCurrentPersoon(req, resp, true);
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		Persoon p = Persoon.getCurrentPersoon(pm, req, resp, true);
 		if(p==null)
 			return;
 		
@@ -40,16 +41,13 @@ public class VraagServlet extends HttpServlet {
 			String q = FieldVerifier.getParam(VraagServlet.regex, req, resp, "q");
 			String text = FieldVerifier.getParam(VraagServlet.regex, req, resp, "text");
 			String vakId = FieldVerifier.getParam(VraagServlet.regex, req, resp, "vakid");
-			Vraag vraag;
-			
-			PersistenceManager pm = PMF.get().getPersistenceManager();
 			
 			Key vakkey = KeyFactory.stringToKey(vakId);
 			Vak vak = pm.getObjectById(Vak.class, vakkey);
 			
 			if(q.equals("add")||q.equals("respond"))
 			{
-				vraag = new Vraag();
+				Vraag vraag = new Vraag();
 				vraag.setFromUser(p);
 				vraag.setVak(vak);
 				vraag.setText(text);
@@ -61,9 +59,13 @@ public class VraagServlet extends HttpServlet {
 					Vraag replyTo = pm.getObjectById(Vraag.class, key);
 					vraag.setReplyTo(replyTo);
 				}
+				
+				pm.makePersistent(vraag);
+				pm.close();
 			}
 			
-			resp.getWriter().write("q=" + q);
+			resp.getWriter().write("Vraag stored successfully");
+			
 		} catch (FormatException e) {
 			resp.getWriter().write(e.getMessage());
 			resp.setStatus(400);

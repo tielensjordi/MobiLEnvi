@@ -2,10 +2,12 @@ package be.kuleuven.mume.servlets;
 
 import java.io.IOException;
 
+import javax.jdo.PersistenceManager;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import be.kuleuven.mume.PMF;
 import be.kuleuven.mume.shared.Persoon;
 
 public class TestServlet extends HttpServlet {
@@ -18,7 +20,8 @@ public class TestServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 		//Check if user is logged in.
-		Persoon p = Persoon.getCurrentPersoon(req, resp, true);
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		Persoon p = Persoon.getCurrentPersoon(pm, req, resp, true);
 		if (null == p)
 			return;
 

@@ -17,9 +17,9 @@ public class VraagTest {
 	}
 	
 	@Test
-	public void testStoreVak() throws IOException{
+	public void testStoreVraag() throws IOException{
 		
-		URL url = new URL("http://localhost:8888/vraag?q=add&text=Hoe zou dit moeten?&vakid=agltb2JpbGVudmlyCQsSA1ZhaxgRDA");
+		URL url = new URL("http://localhost:8888/vraag?q=add&text=Hoe zou dit moeten?&vakid=agltb2JpbGVudmlyCQsSA1ZhaxgBDA");
 		
 		URLConnection conn = url.openConnection();
 		String responcecode = conn.getHeaderField(0);
@@ -28,7 +28,7 @@ public class VraagTest {
 		
 	}
 	
-	@Test
+	//@Test
 	public void testWrongUrl() throws IOException{
 		
 		URL url = new URL("http://localhost:8888/vak?q=add&name=reza&hashtag=mijnvak");

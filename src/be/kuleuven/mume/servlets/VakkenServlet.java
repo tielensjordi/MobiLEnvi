@@ -5,12 +5,9 @@ import java.util.HashMap;
 
 import javax.jdo.Extent;
 import javax.jdo.PersistenceManager;
-import javax.jdo.Query;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 import be.kuleuven.mume.PMF;
 import be.kuleuven.mume.shared.Persoon;
@@ -29,14 +26,15 @@ public class VakkenServlet extends HttpServlet {
 	}
 	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		Persoon p = Persoon.getCurrentPersoon(req, resp, true);
+
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		Persoon p = Persoon.getCurrentPersoon(pm, req, resp, true);
 		if(p==null)
 			return;
-		
-		PersistenceManager pm = PMF.get().getPersistenceManager();
+			
 		Extent<Vak> query = pm.getExtent(Vak.class);
 		for (Vak vak : query) {
-			resp.getWriter().write(vak.toString());
+			resp.getWriter().write(vak.toString() + "\n");
 		}
 	}
 }

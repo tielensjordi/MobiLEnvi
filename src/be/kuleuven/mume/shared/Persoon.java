@@ -1,17 +1,19 @@
 package be.kuleuven.mume.shared;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
+import javax.jdo.annotations.Extension;
+import javax.jdo.annotations.Order;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import be.kuleuven.mume.PMF;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
@@ -34,16 +36,20 @@ public class Persoon {
 	private int leeftijd;
 	@Persistent(serialized = "true")
 	private AccessToken twitterToken;
+	//@Persistent(mappedBy = "fromPersoon") //vragen is already dependant of vak -> dependant wont work
+	//@Order(extensions = @Extension(vendorName = "datanucleus", key = "list-ordering", value = "date asc"))
+	//private List<Vraag> vragen;
 	
-	public Persoon(){	}
+	public Persoon(){	
+		//this.setVragen(new ArrayList<Vraag>());
+	}
 	
-	public static Persoon getCurrentPersoon(){
+	public static Persoon getCurrentPersoon(PersistenceManager pm){
 		Logger log = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 		UserService userService = UserServiceFactory.getUserService();
 		User user = userService.getCurrentUser();
 		String googleId = user.getUserId();
-		PersistenceManager pm = PMF.get().getPersistenceManager();
 		Persoon p = null;
 		Key key = KeyFactory.createKey(Persoon.class.getSimpleName(), googleId);
 		try {
@@ -59,10 +65,11 @@ public class Persoon {
 			p.setGoogleId(key);//Set GoogleId as PK
 			pm.makePersistent(p);
 		}
-
+		pm.flush();
+		
 		return p;
 	}
-	public static Persoon getCurrentPersoon(HttpServletRequest req, HttpServletResponse resp, boolean redirectToGoogleLogin) throws IOException
+	public static Persoon getCurrentPersoon(PersistenceManager pm, HttpServletRequest req, HttpServletResponse resp, boolean redirectToGoogleLogin) throws IOException
 	{	
 		UserService userService = UserServiceFactory.getUserService();
 		User user = userService.getCurrentUser();
@@ -76,7 +83,7 @@ public class Persoon {
             return null;
 		}
 		
-		return getCurrentPersoon();
+		return getCurrentPersoon(pm);
 
 	}
 	
@@ -114,4 +121,12 @@ public class Persoon {
 	public AccessToken getTwitterToken() {
 		return twitterToken;
 	}
+
+	/*public void setVragen(List<Vraag> vragen) {
+		this.vragen = vragen;
+	}
+
+	public List<Vraag> getVragen() {
+		return vragen;
+	}*/
 }

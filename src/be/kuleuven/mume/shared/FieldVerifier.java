@@ -46,6 +46,12 @@ public class FieldVerifier {
 		return name.length() > 3;
 	}
 
+	/**
+	 * Checks whether the param passes the regex
+	 * @param regexes regular expressions Map
+	 * @return the param on succes
+	 * @throws FormatException if match fails
+	 */
 	public static String getParam(Map<String, String> regexes,
 			HttpServletRequest req, HttpServletResponse resp, String paramName)
 			throws FormatException {

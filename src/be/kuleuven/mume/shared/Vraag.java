@@ -20,7 +20,7 @@ public class Vraag {
 	private Persoon fromPersoon;
 	@Persistent
 	private String text;
-	@Persistent(dependent = "true")
+	@Persistent
 	private Vak vak;
 	@Persistent
 	private Date date;

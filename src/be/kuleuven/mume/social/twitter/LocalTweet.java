@@ -11,6 +11,8 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 import javax.jdo.annotations.InheritanceStrategy;
 
+import be.kuleuven.mume.shared.Vak;
+
 import com.google.appengine.api.datastore.Key;
 
 import twitter4j.Tweet;
@@ -37,6 +39,8 @@ public class LocalTweet {
 	//private long toUserId;
 	@Persistent
 	private String location;
+	//@Persistent
+	//private Vak vak;
 
 	public LocalTweet(Tweet t) {
 		try {
@@ -55,7 +59,7 @@ public class LocalTweet {
 	}
 
 	public LocalTweet() {
-
+		//this.vak = vak;
 	}
 
 	public String toString() {
@@ -113,5 +117,12 @@ public class LocalTweet {
 	public String getLocation() {
 		return location;
 	}
+	/*public void setVak(Vak vak) {
+		this.vak = vak;
+	}
+
+	public Vak getVak() {
+		return vak;
+	}*/
 
 }

@@ -9,7 +9,8 @@ import be.kuleuven.mume.shared.Vak;
 
 @PersistenceCapable
 public class VakTweet extends LocalTweet {
-	@Persistent(dependent = "true")
+	
+	@Persistent
 	private Vak vak;
 
 	public VakTweet(Tweet tweet, Vak vak) {
@@ -17,8 +18,9 @@ public class VakTweet extends LocalTweet {
 		this.setVak(vak);
 	}
 
-	public VakTweet() {
-	}
+	/*public VakTweet(Vak vak) {
+		this.vak = vak;
+	}*/
 
 	public void setVak(Vak vak) {
 		this.vak = vak;

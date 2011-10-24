@@ -12,6 +12,7 @@ import javax.jdo.annotations.PrimaryKey;
 import javax.jdo.annotations.Extension;
 
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 
 import twitter4j.Tweet;
 
@@ -92,8 +93,6 @@ public class Vak {
 	}
 
 	public void addTweet(VakTweet tweet) throws Exception {
-		if (tweet.getVak() != null)
-			throw new Exception("Cannot add a tweet from another Vak");
 		this.tweets.add(tweet);
 	}
 
@@ -109,7 +108,7 @@ public class Vak {
 		StringBuilder str = new StringBuilder();
 		str.append(this.name);
 		str.append(" id:");
-		str.append(this.vakId);
+		str.append(KeyFactory.keyToString(this.vakId));
 		str.append(" hashtag:");
 		str.append(this.hashTag);
 		return str.toString();

@@ -7,6 +7,7 @@ import java.io.ObjectOutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.jdo.PersistenceManager;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,7 +39,8 @@ public class SigninServlet extends HttpServlet {
 		Logger log = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 		//Every Servlet must check whether the Persoon has already signed in.
-		Persoon persoon = Persoon.getCurrentPersoon(req, resp, true);
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		Persoon persoon = Persoon.getCurrentPersoon(pm, req, resp, true);
 		if (persoon == null)
 			return;
 
