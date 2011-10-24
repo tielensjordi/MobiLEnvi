@@ -1,16 +1,14 @@
 package be.kuleuven.mume.shared;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
-import javax.jdo.annotations.Extension;
-import javax.jdo.annotations.Order;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PrimaryKey;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +19,7 @@ import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
@@ -36,12 +35,20 @@ public class Persoon {
 	private int leeftijd;
 	@Persistent(serialized = "true")
 	private AccessToken twitterToken;
-	//@Persistent(mappedBy = "fromPersoon") //vragen is already dependant of vak -> dependant wont work
-	//@Order(extensions = @Extension(vendorName = "datanucleus", key = "list-ordering", value = "date asc"))
-	//private List<Vraag> vragen;
+	@NotPersistent
+	private List<Vraag> vragen;
+	@NotPersistent
+	private List<Vak> vakken;
+	@Persistent
+	private List<Key> vragenId;
+	@Persistent
+	private List<Key> vakkenId;
+	@NotPersistent
+	Logger log;
 	
 	public Persoon(){	
 		//this.setVragen(new ArrayList<Vraag>());
+		log = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	}
 	
 	public static Persoon getCurrentPersoon(PersistenceManager pm){
@@ -122,11 +129,43 @@ public class Persoon {
 		return twitterToken;
 	}
 
-	/*public void setVragen(List<Vraag> vragen) {
+	public void setVragen(List<Vraag> vragen) {
+		System.out.println("needs to be implemented");
+		log.log(Level.SEVERE,"Needs to be implemented");
 		this.vragen = vragen;
 	}
 
 	public List<Vraag> getVragen() {
+		System.out.println("needs to be implemented");
+		log.log(Level.SEVERE,"Needs to be implemented");
 		return vragen;
-	}*/
+	}
+
+	public void setVakken(List<Vak> vakken) {
+		System.out.println("needs to be implemented");
+		log.log(Level.SEVERE,"Needs to be implemented");
+		this.vakken = vakken;
+	}
+
+	public List<Vak> getVakken() {
+		System.out.println("needs to be implemented");
+		log.log(Level.SEVERE,"Needs to be implemented");
+		return vakken;
+	}
+
+	public void setVragenId(List<Key> vragenId) {
+		this.vragenId = vragenId;
+	}
+
+	public List<Key> getVragenId() {
+		return vragenId;
+	}
+
+	public void setVakkenId(List<Key> vakkenId) {
+		this.vakkenId = vakkenId;
+	}
+
+	public List<Key> getVakkenId() {
+		return vakkenId;
+	}
 }

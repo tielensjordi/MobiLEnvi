@@ -1,4 +1,10 @@
-<!-- Indices written at Mon, 24 Oct 2011 10:31:41 UTC -->
+<!-- Indices written at Mon, 24 Oct 2011 19:25:45 UTC -->
 
-<datastore-indexes/>
+<datastore-indexes>
 
+    <!-- Used 1 time in query history -->
+    <datastore-index kind="LocalTweet" ancestor="true" source="auto">
+        <property name="createdAt" direction="asc"/>
+    </datastore-index>
+
+</datastore-indexes>
