@@ -17,9 +17,9 @@ import com.google.appengine.repackaged.org.json.JSONArray;
 import com.google.appengine.repackaged.org.json.JSONObject;
 
 public class TweetFactory {
-	
+
 	private Logger log = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-	
+
 	/*public LocalTweets getRecentTweets(int page){
 		Logger log = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 		

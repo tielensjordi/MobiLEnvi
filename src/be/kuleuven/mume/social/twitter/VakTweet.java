@@ -11,13 +11,14 @@ import be.kuleuven.mume.shared.Vak;
 public class VakTweet extends LocalTweet {
 	@Persistent(dependent = "true")
 	private Vak vak;
-	
+
 	public VakTweet(Tweet tweet, Vak vak) {
 		super(tweet);
 		this.setVak(vak);
 	}
-	
-	public VakTweet(){}
+
+	public VakTweet() {
+	}
 
 	public void setVak(Vak vak) {
 		this.vak = vak;

@@ -45,16 +45,19 @@ public class FieldVerifier {
 		}
 		return name.length() > 3;
 	}
-	
-	public static String getParam(Map<String,String> regexes, HttpServletRequest req, HttpServletResponse resp, String paramName) throws FormatException {
+
+	public static String getParam(Map<String, String> regexes,
+			HttpServletRequest req, HttpServletResponse resp, String paramName)
+			throws FormatException {
 		String regex = regexes.get(paramName);
 		String param = req.getParameter(paramName);
-		
-		if(param==null)
+
+		if (param == null)
 			param = "";
-		
-		if(!Pattern.matches(regex, param)){
-			throw new FormatException("Param: '" + paramName + "' has to be in this format:" + regex);
+
+		if (!Pattern.matches(regex, param)) {
+			throw new FormatException("Param: '" + paramName
+					+ "' has to be in this format:" + regex);
 		}
 		return param;
 	}
