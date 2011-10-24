@@ -15,17 +15,9 @@ public class VakTest {
 	}
 
 	@Test
-<<<<<<< HEAD
 	public void testStoreVak() throws IOException{
 		
 		URL url = new URL("http://localhost:8888/vak?q=add&name=mijnvak&hashtag=mijnvak");
-=======
-	public void testStoreVak() throws IOException {
-
-		URL url = new URL(
-				"http://localhost:8888/vak?q=add&name=mijnvak&hashtag=#mijnvak");
-
->>>>>>> mobilenvi/master
 		URLConnection conn = url.openConnection();
 		String responcecode = conn.getHeaderField(0);
 		Assert.assertEquals("HTTP/1.1 200 OK", responcecode);
@@ -33,18 +25,9 @@ public class VakTest {
 	}
 
 	@Test
-<<<<<<< HEAD
 	public void testWrongUrl() throws IOException{
 		
 		URL url = new URL("http://localhost:8888/vak?q=add&name=reza&hashtag=%25mijnvak");
-		
-=======
-	public void testWrongUrl() throws IOException {
-
-		URL url = new URL(
-				"http://localhost:8888/vak?q=add&name=reza&hashtag=mijnvak");
-
->>>>>>> mobilenvi/master
 		URLConnection conn = url.openConnection();
 		String responcecode = conn.getHeaderField(0);
 		Assert.assertNotSame("HTTP/1.1 200 OK", responcecode);

@@ -37,7 +37,6 @@ public class VakServlet extends HttpServlet {
 		VakServlet.regex.put("q", "add|update|del");
 		VakServlet.regex.put("vakid", "\\p{Graph}+");
 	}
-<<<<<<< HEAD
 	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		Persoon p = Persoon.getCurrentPersoon(req, resp, true);
@@ -48,18 +47,6 @@ public class VakServlet extends HttpServlet {
 			String q = FieldVerifier.getParam(VakServlet.regex, req,resp,"q");
 			String name = FieldVerifier.getParam(VakServlet.regex, req,resp, "name");
 			String hashTag = FieldVerifier.getParam(VakServlet.regex, req, resp, "hashtag");
-=======
-
-	public void doGet(HttpServletRequest req, HttpServletResponse resp)
-			throws IOException {
-
-		try {
-			String q = FieldVerifier.getParam(VakServlet.regex, req, resp, "q");
-			String name = FieldVerifier.getParam(VakServlet.regex, req, resp,
-					"name");
-			String hashTag = FieldVerifier.getParam(VakServlet.regex, req,
-					resp, "hashtag");
->>>>>>> mobilenvi/master
 			String vakId = null;
 
 			PersistenceManager pm = PMF.get().getPersistenceManager();

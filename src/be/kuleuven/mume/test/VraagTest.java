@@ -13,6 +13,7 @@ public class VraagTest {
 	
 	@Before
 	public void startup() {
+		//Hello
 	}
 	
 	@Test

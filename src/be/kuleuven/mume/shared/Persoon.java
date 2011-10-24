@@ -34,38 +34,14 @@ public class Persoon {
 	private int leeftijd;
 	@Persistent(serialized = "true")
 	private AccessToken twitterToken;
-<<<<<<< HEAD
 	
 	public Persoon(){	}
 	
 	public static Persoon getCurrentPersoon(){
-=======
-
-	public Persoon() {
-	}
-
-	public static Persoon getCurrentPersoon(HttpServletRequest req,
-			HttpServletResponse resp, boolean redirectToGoogleLogin)
-			throws IOException {
->>>>>>> mobilenvi/master
 		Logger log = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 		UserService userService = UserServiceFactory.getUserService();
 		User user = userService.getCurrentUser();
-<<<<<<< HEAD
-		
-=======
-
-		//check if a user is logged in.
-		//redirect to login page if not yet logged in.
-		if (user == null) {
-			if (redirectToGoogleLogin)
-				resp.sendRedirect(userService.createLoginURL(req
-						.getRequestURI()));
-			return null;
-		}
-
->>>>>>> mobilenvi/master
 		String googleId = user.getUserId();
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		Persoon p = null;
@@ -86,7 +62,6 @@ public class Persoon {
 
 		return p;
 	}
-<<<<<<< HEAD
 	public static Persoon getCurrentPersoon(HttpServletRequest req, HttpServletResponse resp, boolean redirectToGoogleLogin) throws IOException
 	{	
 		UserService userService = UserServiceFactory.getUserService();
@@ -106,10 +81,6 @@ public class Persoon {
 	}
 	
 	public Twitter getTwitter(){
-=======
-
-	public Twitter getTwitter() {
->>>>>>> mobilenvi/master
 		Twitter twitter = null;
 		if (this.twitterToken != null) {
 			twitter = new TwitterFactory().getInstance();
