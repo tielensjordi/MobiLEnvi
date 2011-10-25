@@ -6,4 +6,7 @@
     <datastore-index kind="VakTweet" ancestor="true" source="manual">
         <property name="createdAt" direction="asc"/>
     </datastore-index>
+    <datastore-index kind="Antwoord" ancestor="true" source="manual">
+        <property name="antwoorden_INTEGER_IDX" direction="asc"/>
+    </datastore-index>
 </datastore-indexes>

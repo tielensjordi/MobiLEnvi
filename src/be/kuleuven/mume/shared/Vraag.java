@@ -1,7 +1,9 @@
 package be.kuleuven.mume.shared;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
@@ -11,44 +13,36 @@ import javax.jdo.annotations.PrimaryKey;
 import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable
-public class Vraag {
-
+public class Vraag{
+	
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Key vraagId;
-	@Persistent
-	private Persoon fromPersoon;
-	@Persistent
-	private String text;
+	private Key id;
 	@Persistent
 	private Vak vak;
 	@Persistent
-	private Date date;
+	private String fromPersoon;
 	@Persistent
-	private Vraag replyTo;
-	
-	public Vraag(){
+	private String text;
+	@Persistent
+	private Date date;
+	@Persistent(mappedBy = "vraag")
+	private List<Antwoord> antwoorden;
+
+	public Vraag(Persoon fromPersoon, Vak vak, String text){
+		this.setFromPersoon(fromPersoon.getNickName());
+		this.vak = vak;
+		this.text = text;
+		this.antwoorden = new ArrayList<Antwoord>();
 		this.date = Calendar.getInstance().getTime();
 	}
-
-	public void setVraagId(Key vraagId) {
-		this.vraagId = vraagId;
+	
+	public void setId(Key id) {
+		this.id = id;
 	}
 
-	public Key getVraagId() {
-		return vraagId;
-	}
-	public void setFromUser(Persoon fromPersoon) {
-		this.fromPersoon = fromPersoon;
-	}
-	public Persoon getFromUser() {
-		return fromPersoon;
-	}
-	public void setText(String vraag) {
-		this.text = vraag;
-	}
-	public String getText() {
-		return text;
+	public Key getId() {
+		return id;
 	}
 
 	public void setVak(Vak vak) {
@@ -58,6 +52,34 @@ public class Vraag {
 	public Vak getVak() {
 		return vak;
 	}
+	
+	public void setFromPersoon(String fromPersoon) {
+		this.fromPersoon = fromPersoon;
+	}
+
+	public String getFromPersoon() {
+		return fromPersoon;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public void addAntwoord(Antwoord a)
+	{
+		this.antwoorden.add(a);
+	}
+	public void setAntwoorden(List<Antwoord> antwoorden) {
+		this.antwoorden = antwoorden;
+	}
+
+	public List<Antwoord> getAntwoorden() {
+		return antwoorden;
+	}
 
 	public void setDate(Date date) {
 		this.date = date;
@@ -66,18 +88,19 @@ public class Vraag {
 	public Date getDate() {
 		return date;
 	}
-	
-	public boolean isReply(){
-		if(this.replyTo != null)
-			return true;
-		return false;
-	}
 
-	public void setReplyTo(Vraag replyTo) {
-		this.replyTo = replyTo;
-	}
-
-	public Vraag getReplyTo() {
-		return replyTo;
+	public String toString(){
+		StringBuilder str = new StringBuilder();
+		str.append("From: ");
+		str.append(this.fromPersoon);
+		str.append(" Vraag: ");
+		str.append(this.getText());
+		str.append("\nAntwoorden:\n");
+		for (Antwoord a : this.antwoorden) {
+			str.append("\t");
+			str.append(a.toString());
+			str.append("\n");
+		}
+		return str.toString();
 	}
 }

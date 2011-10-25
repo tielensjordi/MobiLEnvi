@@ -21,6 +21,7 @@ import be.kuleuven.mume.social.twitter.VakTweet;
 
 @PersistenceCapable
 public class Vak {
+	
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Key vakId;

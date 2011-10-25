@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import be.kuleuven.mume.PMF;
 import be.kuleuven.mume.shared.Persoon;
+import be.kuleuven.mume.shared.Vak;
+import be.kuleuven.mume.shared.Vraag;
 
 public class TestServlet extends HttpServlet {
 
@@ -32,8 +34,9 @@ public class TestServlet extends HttpServlet {
 		//resp.getWriter().print((new JSONObject(p)).toString());
 		//resp.getWriter().print(tf.bySearchTerm(req.getParameter("searchTerm"), 1).toString());
 		//resp.getWriter().print(Tweets.getRecentTweets(1).toString());
-
-		resp.getWriter().println(p.getGoogleId());
+		
+		
+		resp.getWriter().println(p.getVragen().get(0).toString());
 
 	}
 

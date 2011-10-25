@@ -1,11 +1,13 @@
 package be.kuleuven.mume.shared;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.NotPersistent;
@@ -19,18 +21,20 @@ import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 
 @PersistenceCapable
 public class Persoon {
-
 	@PrimaryKey
 	@Persistent
 	//(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Key googleId;
+	@NotPersistent
+	private PersistenceManager pm;
+	@Persistent
+	private String nickName;
 	@Persistent
 	private int leeftijd;
 	@Persistent(serialized = "true")
@@ -47,13 +51,16 @@ public class Persoon {
 	Logger log;
 	
 	public Persoon(){	
-		//this.setVragen(new ArrayList<Vraag>());
+		this.vragen = new ArrayList<Vraag>();
+		this.vakken = new ArrayList<Vak>();
+		this.vragenId = new ArrayList<Key>();
+		this.vakkenId = new ArrayList<Key>();
 		log = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	}
 	
 	public static Persoon getCurrentPersoon(PersistenceManager pm){
 		Logger log = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-
+		
 		UserService userService = UserServiceFactory.getUserService();
 		User user = userService.getCurrentUser();
 		String googleId = user.getUserId();
@@ -70,6 +77,8 @@ public class Persoon {
 		if (p == null) {
 			p = new Persoon();
 			p.setGoogleId(key);//Set GoogleId as PK
+			p.setPm(pm);
+			p.nickName = user.getNickname();
 			pm.makePersistent(p);
 		}
 		pm.flush();
@@ -94,6 +103,18 @@ public class Persoon {
 
 	}
 	
+	public void setPm(PersistenceManager pm){
+		this.pm = pm;
+	}
+	
+	public void setNickName(String name) {
+		this.nickName = name;
+	}
+
+	public String getNickName() {
+		return nickName;
+	}
+
 	public Twitter getTwitter(){
 		Twitter twitter = null;
 		if (this.twitterToken != null) {
@@ -128,16 +149,29 @@ public class Persoon {
 	public AccessToken getTwitterToken() {
 		return twitterToken;
 	}
-
+	
+	public void addVraag(Vraag v){
+		this.vragen.add(v);
+	}
+	
 	public void setVragen(List<Vraag> vragen) {
-		System.out.println("needs to be implemented");
-		log.log(Level.SEVERE,"Needs to be implemented");
+		//Idd keys to sepperate list. These will be stored
+		for (Vraag vraag : vragen) {
+			this.vragenId.add(vraag.getId());
+		}
 		this.vragen = vragen;
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Vraag> getVragen() {
-		System.out.println("needs to be implemented");
-		log.log(Level.SEVERE,"Needs to be implemented");
+		if(this.vragen.isEmpty())
+		{
+			Query q = pm.newQuery(Vraag.class);
+		    q.setFilter("fromPersoon == fromPersoonParam");
+		    q.setOrdering("date desc");
+		    q.declareParameters("Persoon fromPersoonParam");
+		    this.vragen = (List<Vraag>)q.execute(this);
+		}
 		return vragen;
 	}
 
