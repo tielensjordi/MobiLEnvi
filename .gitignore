@@ -1,8 +1,12 @@
 *.class
 *.html
-.gwt/*
+.gwt/.gwt-log
+gwt-unitCache
 war/WEB-INF/appengine-generated/*
 .settings/org.eclipse.jdt.core.prefs
 .settings/org.eclipse.jdt.ui.prefs
+.settings/com.google.appengine.eclipse.core.prefs
+.settings/com.google.gdt.eclipse.core.prefs
+.settings/com.google.gwt.eclipse.core.prefs
 .classpath
 .project
