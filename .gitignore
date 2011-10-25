@@ -1,6 +1,7 @@
 *.class
 *.html
-.gwt/*.*
+.gwt/*
+war/WEB-INF/appengine-generated/*
 .settings/org.eclipse.jdt.core.prefs
 .settings/org.eclipse.jdt.ui.prefs
 .classpath
